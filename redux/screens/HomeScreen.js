@@ -5,6 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  FlatList,
   TouchableOpacity,
   Button,
   View
@@ -18,7 +19,13 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <MonoText style={styles.codeHighlightText}>{this.props.title}</MonoText>
+        {this.props.textArr.map(todo => (
+          <TouchableOpacity key={todo.id}>
+            <Text>
+              {todo.title} ID: {todo.id}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
     );
   }
@@ -38,7 +45,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  return { title: state.title };
+  return { textArr: state.textArr };
 };
 
 export default connect(mapStateToProps)(HomeScreen);

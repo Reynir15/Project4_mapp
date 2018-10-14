@@ -1,12 +1,14 @@
 import React from "react";
-import { ExpoConfigView } from "@expo/samples";
 import { StyleSheet, View, TextInput, Button } from "react-native";
 import { connect } from "react-redux";
 
 class SettingsScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { text: "" };
+    this.state = {
+      text: "",
+      id: 0
+    };
   }
   render() {
     /* Go ahead and delete ExpoConfigView and replace it with your
@@ -16,7 +18,7 @@ class SettingsScreen extends React.Component {
       <View style={styles.container}>
         <TextInput
           style={styles.TextInput}
-          placeholder={"Add a TODO..."}
+          // placeholder={"Add a TODO..."}
           onChangeText={text => this.setState({ text })}
           value={this.state.text}
         />
@@ -24,8 +26,12 @@ class SettingsScreen extends React.Component {
           title="Add the task to the list"
           onPress={() =>
             this.props.dispatch({
-              type: "UPDATE_TITLE",
-              payload: { title: this.state.text }
+              type: "ADD_TITLE_TO_ARRAY",
+              payload: {
+                title: this.state.text,
+                id: (this.state.id += 1),
+                text: ""
+              }
             })
           }
         />
