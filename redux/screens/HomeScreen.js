@@ -1,31 +1,44 @@
 import React from "react";
 import {
-  Image,
-  Platform,
-  ScrollView,
   StyleSheet,
   Text,
-  FlatList,
   TouchableOpacity,
-  Button,
-  View
+  View,
+  FlatList
 } from "react-native";
 import { connect } from "react-redux";
 import { WebBrowser } from "expo";
+import InputForm from "../components/InputForm";
 
 import { MonoText } from "../components/StyledText";
 
 class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: "",
+      id: 0
+    };
+  }
+
+  onPress = text => {
+    this.props.dispatch({
+      type: "ADD_TITLE_TO_ARRAY",
+      payload: {
+        title: text,
+        id: (this.state.id += 1),
+        text: ""
+      }
+    });
+  };
   render() {
     return (
       <View style={styles.container}>
-        {this.props.textArr.map(todo => (
-          <TouchableOpacity key={todo.id}>
-            <Text>
-              {todo.title} ID: {todo.id}
-            </Text>
-          </TouchableOpacity>
-        ))}
+        <InputForm onPress={text => this.onPress(text)} />
+        <FlatList
+          data={this.props.textArr}
+          renderItem={({ item }) => <MonoText>{item.title}</MonoText>}
+        />
       </View>
     );
   }

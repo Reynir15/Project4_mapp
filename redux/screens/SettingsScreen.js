@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleSheet, View, TextInput, Button } from "react-native";
 import { connect } from "react-redux";
+import { TextInput, Button, View, StyleSheet } from "react-native";
 
 class SettingsScreen extends React.Component {
   constructor(props) {
@@ -14,29 +14,7 @@ class SettingsScreen extends React.Component {
     /* Go ahead and delete ExpoConfigView and replace it with your
      * content, we just wanted to give you a quick view of your config */
 
-    return (
-      <View style={styles.container}>
-        <TextInput
-          style={styles.TextInput}
-          // placeholder={"Add a TODO..."}
-          onChangeText={text => this.setState({ text })}
-          value={this.state.text}
-        />
-        <Button
-          title="Add the task to the list"
-          onPress={() =>
-            this.props.dispatch({
-              type: "ADD_TITLE_TO_ARRAY",
-              payload: {
-                title: this.state.text,
-                id: (this.state.id += 1),
-                text: ""
-              }
-            })
-          }
-        />
-      </View>
-    );
+    return <View />;
   }
 }
 
