@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { TextInput, Button, View, StyleSheet } from "react-native";
+
 export default class InputForm extends Component {
   constructor(props) {
     super(props);
@@ -15,23 +16,39 @@ export default class InputForm extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <TextInput
           style={styles.TextInput}
-          // placeholder={"Add a TODO..."}
+          placeholder={"Add a TODO..."}
           onChangeText={text => this.setState({ text })}
           value={this.state.text}
         />
-        <Button title="Add the task to the list" onPress={this.handleSubmit} />
+        <Button
+          style={styles.button}
+          title="Add"
+          onPress={this.handleSubmit}
+          disabled={this.state.text.trim() === ""}
+        />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    margin: 20,
+    marginBottom: 10
+  },
   TextInput: {
-    borderWidth: 1,
+    flex: 1,
     height: 40,
-    borderColor: "grey"
+    borderColor: "grey",
+    marginRight: 10
+  },
+  button: {
+    flex: 2
   }
 });

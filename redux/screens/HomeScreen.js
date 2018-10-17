@@ -1,15 +1,9 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  FlatList
-} from "react-native";
+import { StyleSheet, View, FlatList, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
-import { WebBrowser } from "expo";
 import InputForm from "../components/InputForm";
-
+import { CheckBox } from "react-native-elements";
+import Swipeable from "react-native-swipeable";
 import { MonoText } from "../components/StyledText";
 
 class HomeScreen extends React.Component {
@@ -27,17 +21,58 @@ class HomeScreen extends React.Component {
       payload: {
         title: text,
         id: (this.state.id += 1),
-        text: ""
+        finished: false
       }
     });
   };
+
+  deleteItem = todoID => {
+    this.props.dispatch({
+      type: "DELETE",
+      payload: {
+        id: todoID
+      }
+    });
+  };
+
+  toggleTodo = id => {
+    this.props.dispatch({
+      type: "TOGGLE",
+      payload: {
+        id: id
+      }
+    });
+    // this.setState({ finished: this.props.todos.finished });
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <InputForm onPress={text => this.onPress(text)} />
         <FlatList
-          data={this.props.textArr}
-          renderItem={({ item }) => <MonoText>{item.title}</MonoText>}
+          style={styles.flatlist}
+          data={this.props.todos}
+          renderItem={({ item, index }) => (
+            // <Swipeable
+            //   rightButtons={[
+            <TouchableOpacity onPress={() => this.deleteItem(item.id)}>
+              <MonoText>{item.title}</MonoText>
+            </TouchableOpacity>
+            // ]}
+            // >
+            //   <CheckBox
+            //     title={item.title}
+            //     checked={item.finished}
+            //     onPress={() => this.toggleTodo(item.id)}
+            //     // onPress={() => console.log(item.finished)}
+            //   />
+            // </Swipeable>
+            //{" "}
+            // {/* <Switch
+            // //   onValueChange={() => this.toggleTodo(item.id)}
+            // //   value={item.finished}
+            // // /> */}
+          )}
         />
       </View>
     );
@@ -48,8 +83,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: "flex-start"
+  },
+
+  flatlist: {
+    marginLeft: 20
   },
 
   codeHighlightText: {
@@ -58,7 +96,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  return { textArr: state.textArr };
+  return { todos: state.todos };
 };
 
 export default connect(mapStateToProps)(HomeScreen);
